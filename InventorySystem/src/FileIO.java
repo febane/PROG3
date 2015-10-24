@@ -13,14 +13,14 @@ import java.util.Scanner;
  */
 public class FileIO {
 	
-	private Scanner scanner;
+	private static Scanner scanner;
 	/**
 	 * 
 	 * @param generosFile - Nome do arquivo que contem a lista de generos para leitura
 	 * @return ArrayLIst de generos guardado na memória
 	 * @throws FileNotFoundException
 	 */
-	public Map<String,Genero> readGenero(String generosFile) throws FileNotFoundException
+	public static Map<String,Genero> readGenero(String generosFile) throws FileNotFoundException
 	{
 		//List<Genero> listGenero = new ArrayList<>();
 		Map<String,Genero> mapGenero = new HashMap<>();
@@ -49,7 +49,7 @@ public class FileIO {
 	 * @return Lista de pessoas cadastradas no sistema
 	 * @throws FileNotFoundException
 	 */
-	public List<Pessoa> readPessoa(String pessoaFile) throws FileNotFoundException
+	public static List<Pessoa> readPessoa(String pessoaFile) throws FileNotFoundException
 	{
 		List<Pessoa> listPessoa = new ArrayList<>();
 		
@@ -78,7 +78,7 @@ public class FileIO {
 	 * @return
 	 * @throws FileNotFoundException 
 	 */
-	public List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
+	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
 	{
 		List<Midia> listMidia = new ArrayList<>();
 		
@@ -95,7 +95,9 @@ public class FileIO {
 			String nome = scanner.next();
 			char type = scanner.next().charAt(0);
 			Pessoa diretor  = listPessoas.get(scanner.nextInt()-1);
+			String listaAutores = scanner.next();
 			//Pessoa autor = listPessoas.get(scanner.nextInt()-1);
+			List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
 			int tamanho = scanner.nextInt();
 			Genero gnr = mapGenero.get(scanner.next());
 			String serie = scanner.next();
@@ -107,11 +109,11 @@ public class FileIO {
 			
 			switch(type)
 			{
-				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco, listPessoas));
+				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco, elenco));
 					break;
-				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,listPessoas));
+				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco));
 					break;
-				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,listPessoas,temporada,serie));
+				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie));
 					break;
 				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
 			}
@@ -121,9 +123,26 @@ public class FileIO {
 		for (Midia midia : listMidia) {
 			System.out.println(midia);
 		}
-		
-		
+			
 		return listMidia;
 	}
+	
+	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l) throws FileNotFoundException
+	{
+		List<Pessoa> lista = new ArrayList<>();
+		@SuppressWarnings("resource")
+		Scanner s = new Scanner(new FileReader(codAtores)).useDelimiter(";\\n");
+		
+		while(s.hasNextInt())
+		{
+			lista.add(l.get(scanner.nextInt()-1));
+		}
+		
+		return lista;
+	}
+	
+	
+	
+	
 
 }
