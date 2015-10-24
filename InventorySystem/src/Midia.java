@@ -2,6 +2,7 @@ public abstract class Midia {
 	
 	private int codigo;
 	private String nome;
+	private char type;
 	private int tamanho;
 	private Genero genero;
 	private boolean possui;
@@ -10,8 +11,8 @@ public abstract class Midia {
 	private double preco;
 	
 	public Midia(int codigo, String nome, int tamanho, Genero genero,
-			boolean possui, boolean consumiu, boolean deseja, double preco) {
-		super();
+			boolean possui, boolean consumiu, boolean deseja, double preco, char type) {
+		//super();
 		this.codigo = codigo;
 		this.nome = nome;
 		this.tamanho = tamanho;
@@ -20,6 +21,15 @@ public abstract class Midia {
 		this.consumiu = consumiu;
 		this.deseja = deseja;
 		this.preco = preco;
+		this.type = type;
+	}
+
+	public char getType() {
+		return type;
+	}
+
+	public void setType(char type) {
+		this.type = type;
 	}
 
 	public int getCodigo() {
@@ -70,4 +80,8 @@ public abstract class Midia {
 		this.preco = preco;
 	}
 	
+	public String toString()
+	{
+		return "Nome: "+nome+", tipo: "+type+", preço: "+preco;
+	}
 }
