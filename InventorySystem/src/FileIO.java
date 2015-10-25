@@ -26,10 +26,9 @@ public class FileIO {
 		Map<String,Genero> mapGenero = new HashMap<>();
 		
 		scanner = new Scanner(new FileReader(generosFile));
-		scanner = scanner.useDelimiter(";\\n");
+		scanner = scanner.useDelimiter("[;\\n]+");
 		
-		System.out.println(scanner.next());
-		System.out.println(scanner.next());	
+		System.out.println(scanner.next()+":"+scanner.next());
 		
 		while(scanner.hasNext())
 		{
@@ -54,19 +53,19 @@ public class FileIO {
 		List<Pessoa> listPessoa = new ArrayList<>();
 		
 		scanner = new Scanner(new FileReader(pessoaFile));
-		scanner = scanner.useDelimiter(";\\n");
+		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃO REGULAR JAVA
 		
-		System.out.println(scanner.next());
-		System.out.println(scanner.next());
+		System.out.println(scanner.next()+":"+scanner.next());
 
 		while(scanner.hasNext())
 		{
-			int cod = scanner.nextInt();
+			int cod = Integer.parseInt(scanner.next());
 			String nome = scanner.next();
 			System.out.println(cod+":"+nome);
 			listPessoa.add(new Pessoa(cod,nome));
 		}
 		scanner.close();
+		//Collections.sort(listPessoa);		
 		return listPessoa;
 	}
 	
@@ -82,22 +81,25 @@ public class FileIO {
 	{
 		List<Midia> listMidia = new ArrayList<>();
 		
+		
 		scanner = new Scanner(new FileReader(midiaFile));
-		scanner = scanner.useDelimiter(";\\n");
+		scanner = scanner.useDelimiter("[;\\n]+");
 		
 		// LOOP para descartar a linha de descrição do arquivo
 		for(int i = 0; i < 13; i++)
-			System.out.println(scanner.next());
+			System.out.print(scanner.next()+" ");
 				
 		while(scanner.hasNext())
 		{
 			int codigo = scanner.nextInt();
 			String nome = scanner.next();
 			char type = scanner.next().charAt(0);
-			Pessoa diretor  = listPessoas.get(scanner.nextInt()-1);
+			int dir = scanner.nextInt();
+			Pessoa diretor  = listPessoas.get(scanner.nextInt());
 			String listaAutores = scanner.next();
 			//Pessoa autor = listPessoas.get(scanner.nextInt()-1);
-			List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
+			//List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
+			System.out.println("\n"+codigo+":"+nome+":"+type+":"+diretor.getNome()+":"+listaAutores);
 			int tamanho = scanner.nextInt();
 			Genero gnr = mapGenero.get(scanner.next());
 			String serie = scanner.next();
@@ -109,29 +111,36 @@ public class FileIO {
 			
 			switch(type)
 			{
-				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco, elenco));
+				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,listPessoas/*elenco*/));
 					break;
-				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco));
+				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,listPessoas/*elenco*/));
 					break;
-				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie));
+				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,listPessoas/*elenco*/,temporada,serie));
 					break;
 				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
 			}
 			
 		}
 		
-		for (Midia midia : listMidia) {
+		/*for (Midia midia : listMidia) {
 			System.out.println(midia);
 		}
-			
+			*/
 		return listMidia;
 	}
 	
+	/**
+	 * 
+	 * @param codAtores
+	 * @param l
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l) throws FileNotFoundException
 	{
 		List<Pessoa> lista = new ArrayList<>();
 		@SuppressWarnings("resource")
-		Scanner s = new Scanner(new FileReader(codAtores)).useDelimiter(";\\n");
+		Scanner s = new Scanner(new FileReader(codAtores)).useDelimiter("[;\\n]+");
 		
 		while(s.hasNextInt())
 		{
