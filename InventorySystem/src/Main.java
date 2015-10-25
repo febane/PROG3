@@ -24,21 +24,21 @@ public class Main {
 				ro = false;
 			
 			idx = isIn(args, "-g");
-			if(idx==-1){
+			if(idx!=-1){
 				
 				Map<String,Genero> m = FileIO.readGenero(new File(".").getCanonicalPath()+"/src/generos.csv");
 				
 			}
 			
 			idx = isIn(args, "-p");
-			if(idx==-1){
+			if(idx!=-1){
 				
 				List<Pessoa> p = FileIO.readPessoa(new File(".").getCanonicalPath()+"/src/pessoas.csv");
 				
 			}
 			
 			idx = isIn(args, "-m");
-			if(idx==-1){
+			if(idx!=-1){
 				
 				//TODO
 				//FileIO.readMidia("/home/igor/Documentos/PROG3/InventorySystem/src/midias.csv",p,m);
@@ -46,7 +46,7 @@ public class Main {
 			}
 			
 			idx = isIn(args, "-e");
-			if(idx==-1){
+			if(idx!=-1){
 				
 				//TODO
 				
