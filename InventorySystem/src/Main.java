@@ -7,7 +7,8 @@ import java.util.Map;
 public class Main {
 	
 	public static void main(String[] args) throws IOException {
-		
+		List<Pessoa> p = null;
+		Map<String,Genero> m = null;
 		boolean ro;
 		int idx;
 	
@@ -26,14 +27,14 @@ public class Main {
 			idx = isIn(args, "-g");
 			if(idx!=-1){
 				
-				Map<String,Genero> m = FileIO.readGenero(new File(".").getCanonicalPath()+"/src/generos.csv");
+				m = FileIO.readGenero(new File(".").getCanonicalPath()+"/src/generos.csv");
 				
 			}
 			
 			idx = isIn(args, "-p");
 			if(idx!=-1){
 				
-				List<Pessoa> p = FileIO.readPessoa(new File(".").getCanonicalPath()+"/src/pessoas.csv");
+				p = FileIO.readPessoa(new File(".").getCanonicalPath()+"/src/pessoas.csv");
 				
 			}
 			
@@ -41,7 +42,7 @@ public class Main {
 			if(idx!=-1){
 				
 				//TODO
-				//FileIO.readMidia("/home/igor/Documentos/PROG3/InventorySystem/src/midias.csv",p,m);
+				FileIO.readMidia(new File(".").getCanonicalPath()+"/src/midias.csv",p,m);
 				
 			}
 			
