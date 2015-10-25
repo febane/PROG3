@@ -53,12 +53,24 @@ public class Main {
 				
 				g = FileIO.readGenero(new File(".").getCanonicalPath()+"/"+args[idx+1]);
 				
+				if(!ro){
+					
+					//TODO;
+					
+				}
+				
 			}
 			
 			idx = isIn(args, "-p");
 			if(idx!=-1){
 				
 				p = FileIO.readPessoa(new File(".").getCanonicalPath()+"/"+args[idx+1]);
+				
+				if(!ro){
+					
+					//TODO;
+					
+				}
 				
 			}
 			
@@ -67,13 +79,25 @@ public class Main {
 				
 				m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);
 				
+				if(!ro){
+					
+					//TODO;
+					
+				}
+				
 			}
 			
 			idx = isIn(args, "-e");
 			if(idx!=-1){
 				
-				//TODO
 				e = FileIO.readEmprestimos(new File(".").getCanonicalPath()+"/"+args[idx+1], m);
+				
+				if(!ro){
+					
+					FileIO.writeEmprestimos(e);
+					
+				}
+				
 			}
 			
 			if(ro){
@@ -93,11 +117,6 @@ public class Main {
 				catch(Exception ex){
 					ex.printStackTrace();
 				}
-				
-			}
-			else{
-				
-				//TODO
 				
 			}
 			
