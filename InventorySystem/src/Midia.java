@@ -1,6 +1,13 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
-public abstract class Midia implements Serializable{
+
+public abstract class Midia implements Serializable, Comparable<Midia>{
 	
 	private int codigo;
 	private String nome;
@@ -85,5 +92,61 @@ public abstract class Midia implements Serializable{
 	public String toString()
 	{
 		return "Nome: "+nome+", tipo: "+type+", preço: "+preco;
+	}
+	
+	/**
+	 * Método de critério de ordenação
+	 */
+	public int compareTo(Midia otherMidia) {
+    if (this.type < otherMidia.type) {
+        return -1;
+    }
+    else if (this.type > otherMidia.type) {
+        return 1;
+    }else
+    {
+    	if(this.preco > otherMidia.preco)
+    	{
+    		return -1;
+    	}else if(this.preco < otherMidia.preco)
+    		return 1;
+    	else
+    	{
+    		return this.getNome().compareTo(otherMidia.getNome());
+    	}
+    }
+    
+	}
+
+
+	/**
+	 * Método responsável por gerar a WhishList
+	 * 
+	 * @param m - Lista de midias cadastradas no sistema
+	 * @throws IOException
+	 */
+	public static void generatorWishList(List<Midia> m) throws IOException
+	{
+		Collections.sort(m);
+		
+		FileWriter file = new FileWriter("4-wishlist.csv");
+		PrintWriter saveFile = new PrintWriter(file);
+		
+		saveFile.println("Tipo;Mídia;Gênero;Preço");
+		
+		for (Midia midia : m) {
+			switch(midia.getType())
+			{
+				case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.genero.getNome()+";R$ "+midia.getPreco());
+					break;
+				case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.genero.getNome()+";R$ "+midia.getPreco());
+					break;
+				case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.genero.getNome()+";R$ "+midia.getPreco());
+					break;
+				default:
+			}
+		}
+		
+		file.close();	
 	}
 }

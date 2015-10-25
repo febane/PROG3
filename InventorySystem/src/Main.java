@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class Main {
 	
+	private static ObjectInputStream ois;
+
 	public static void main(String[] args) throws IOException, ParseException {
 		
 		List<Pessoa> p = null;
@@ -24,7 +26,7 @@ public class Main {
 			
 			try{
 				FileInputStream fis = new FileInputStream("inventario.dat");
-				ObjectInputStream ois = new ObjectInputStream(fis);
+				ois = new ObjectInputStream(fis);
 				
 				g = (Map<String, Genero>) ois.readObject();
 				p = (List<Pessoa>) ois.readObject();

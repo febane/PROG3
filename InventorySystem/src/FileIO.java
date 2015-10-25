@@ -164,7 +164,14 @@ public class FileIO {
 		return lista;
 	}
 	
-	
+	/**
+	 * 
+	 * @param emprestimoFile - Nome do arquivo que contém a lista de empréstimos para a leitura
+	 * @param midiaList - Lista de midias cadastradas no sistema
+	 * @return - Lista de empréstimos cadastrados no sistema
+	 * @throws FileNotFoundException
+	 * @throws ParseException
+	 */
 	public static List<Emprestimo> readEmprestimos(String emprestimoFile,List<Midia> midiaList) throws FileNotFoundException, ParseException
 	{
 		List<Emprestimo> listEmprestimo = new ArrayList<>(); 
