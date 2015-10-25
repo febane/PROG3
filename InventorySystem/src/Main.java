@@ -4,13 +4,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
 
 public class Main {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 		
 		List<Pessoa> p = null;
 		Map<String,Genero> g = null;
@@ -72,7 +73,7 @@ public class Main {
 			if(idx!=-1){
 				
 				//TODO
-				
+				e = FileIO.readEmprestimos(new File(".").getCanonicalPath()+"/"+args[idx+1], m);
 			}
 			
 			if(ro){
