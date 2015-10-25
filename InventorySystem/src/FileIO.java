@@ -1,8 +1,11 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 /**
@@ -71,16 +74,15 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param midiaFile
-	 * @param listPessoas
-	 * @param listGenero
-	 * @return
+	 * @param midiaFile - Nome do arquivo que contém a lista de midias para a leitura
+	 * @param listPessoas - Lista de pessoas cadastradas no sistema
+	 * @param mapGenero - Lista de gêneros cadastrados no sistema
+	 * @return	Lista de mídias cadastradas no sistema
 	 * @throws FileNotFoundException 
 	 */
 	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
 	{
 		List<Midia> listMidia = new ArrayList<>();
-		
 		
 		scanner = new Scanner(new FileReader(midiaFile));
 		scanner = scanner.useDelimiter("[;\\n]");
@@ -107,7 +109,16 @@ public class FileIO {
 			boolean possui = (scanner.next()).equals("x");
 			boolean consumiu = scanner.next().equals("x");
 			boolean deseja = scanner.next().equals("x");
-			double preco = scanner.nextDouble();
+			NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+			String sPreco = scanner.next();
+			Number number = 0;
+			try{
+				number = format.parse(sPreco);
+			}
+			catch(ParseException e){
+				System.out.println("Erro ao ler preco");
+			}
+			double preco = number.doubleValue();
 			
 			switch(type)
 			{
@@ -131,9 +142,9 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param codAtores
-	 * @param l
-	 * @return
+	 * @param codAtores - String com  a lista de código de autores
+	 * @param l	- Lista de pessoas com os códigos de todas as pessoas cadastradas no sistema
+	 * @return	- Lista de atores que participaram de um filme ou série
 	 * @throws FileNotFoundException
 	 */
 	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l) throws FileNotFoundException
