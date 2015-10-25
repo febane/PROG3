@@ -1,4 +1,6 @@
-public abstract class Midia {
+import java.io.Serializable;
+
+public abstract class Midia implements Serializable{
 	
 	private int codigo;
 	private String nome;

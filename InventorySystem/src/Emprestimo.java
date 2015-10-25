@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class Emprestimo {
+public class Emprestimo implements Serializable {
 	
 	private Midia midia;
 	private Pessoa tomador;
