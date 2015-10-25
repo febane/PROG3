@@ -1,5 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -196,6 +200,56 @@ public class FileIO {
 		scanner.close();
 		
 		return listEmprestimo;
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void writeEmprestimos(List<Emprestimo> e){
+		
+		final Date hoje = new Date("06/11/2015");
+		SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
+		
+		BufferedWriter bw = null;
+		try
+		{
+		    bw = new BufferedWriter( new FileWriter("3-emprestimos.csv"));
+		    bw.write("Data;Tomador;Atrasado?;Dias de Atraso\n");
+		    
+		    for(Emprestimo emp : e){
+		    	
+		    	bw.write(emp.getDevolucao().toString()+";"+emp.getTomador()+";");
+		    	if(emp.getDevolucao().after(hoje)){
+		    		
+		    		int dias = (int)(emp.getDevolucao().getTime() - hoje.getTime());
+		    		
+		    		bw.write("Sim;"+dias+"\n");
+		    		
+		    	}
+		    	else{
+		    		
+		    		bw.write("Não;0\n");
+		    		
+		    	}
+		    	
+		    }
+
+		}
+		catch ( IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		finally
+		{
+		    try
+		    {
+		        if ( bw != null)
+		        bw.close( );
+		    }
+		    catch ( IOException ex)
+		    {
+		    	ex.printStackTrace();
+		    }
+		}
 		
 	}
 	
