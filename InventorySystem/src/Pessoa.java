@@ -9,6 +9,10 @@ public class Pessoa implements Comparable<Pessoa> {
 		this.codigo = codigo;
 		this.nome = nome;
 	}
+	
+	public Pessoa(){
+		
+	}
 
 	public int getCodigo() {
 		return codigo;

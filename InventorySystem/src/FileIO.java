@@ -83,7 +83,7 @@ public class FileIO {
 		
 		
 		scanner = new Scanner(new FileReader(midiaFile));
-		scanner = scanner.useDelimiter("[;\\n]+");
+		scanner = scanner.useDelimiter("[;\\n]");
 		
 		// LOOP para descartar a linha de descrição do arquivo
 		for(int i = 0; i < 13; i++)
@@ -91,41 +91,41 @@ public class FileIO {
 				
 		while(scanner.hasNext())
 		{
+			Pessoa diretor = new Pessoa();
 			int codigo = scanner.nextInt();
 			String nome = scanner.next();
 			char type = scanner.next().charAt(0);
-			int dir = scanner.nextInt();
-			Pessoa diretor  = listPessoas.get(scanner.nextInt());
+			String dir = scanner.next();
+			if(!dir.equals(""))
+				diretor = listPessoas.get(Integer.parseInt(dir)-1);
 			String listaAutores = scanner.next();
-			//Pessoa autor = listPessoas.get(scanner.nextInt()-1);
-			//List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
-			System.out.println("\n"+codigo+":"+nome+":"+type+":"+diretor.getNome()+":"+listaAutores);
+			List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
 			int tamanho = scanner.nextInt();
 			Genero gnr = mapGenero.get(scanner.next());
 			String serie = scanner.next();
-			int temporada = scanner.nextInt();
-			boolean possui = scanner.next().equals("x");
+			String temporada = scanner.next();
+			boolean possui = (scanner.next()).equals("x");
 			boolean consumiu = scanner.next().equals("x");
 			boolean deseja = scanner.next().equals("x");
 			double preco = scanner.nextDouble();
 			
 			switch(type)
 			{
-				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,listPessoas/*elenco*/));
+				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco));
 					break;
-				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,listPessoas/*elenco*/));
+				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco));
 					break;
-				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,listPessoas/*elenco*/,temporada,serie));
+				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie));
 					break;
 				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
 			}
 			
 		}
 		
-		/*for (Midia midia : listMidia) {
+		for (Midia midia : listMidia) {
 			System.out.println(midia);
 		}
-			*/
+			
 		return listMidia;
 	}
 	
@@ -140,11 +140,12 @@ public class FileIO {
 	{
 		List<Pessoa> lista = new ArrayList<>();
 		@SuppressWarnings("resource")
-		Scanner s = new Scanner(new FileReader(codAtores)).useDelimiter("[;\\n]+");
+		Scanner s = new Scanner(codAtores).useDelimiter("[;\\n]+");
 		
 		while(s.hasNextInt())
 		{
-			lista.add(l.get(scanner.nextInt()-1));
+			
+			lista.add(l.get(s.nextInt()-1));
 		}
 		
 		return lista;
