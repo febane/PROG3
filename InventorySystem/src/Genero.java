@@ -1,5 +1,7 @@
+import java.io.Serializable;
 
-public class Genero {
+
+public class Genero implements Serializable {
 
 	private String sigla;
 	private String nome;

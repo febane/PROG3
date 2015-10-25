@@ -1,5 +1,9 @@
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +15,27 @@ public class Main {
 		List<Pessoa> p = null;
 		Map<String,Genero> g = null;
 		List<Midia> m = null;
+		List<Emprestimo> e = null;
 		boolean ro;
 		int idx;
 	
 		if(isIn(args, "--write-only")!=-1){
+			
+			try{
+				FileInputStream fis = new FileInputStream("inventario.dat");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				
+				g = (Map<String, Genero>) ois.readObject();
+				p = (List<Pessoa>) ois.readObject();
+				m = (List<Midia>) ois.readObject();
+				e = (List<Emprestimo>) ois.readObject();
+			}
+			catch(IOException ex){
+				ex.printStackTrace();
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
 			
 			//TODO
 			
@@ -56,7 +77,21 @@ public class Main {
 			
 			if(ro){
 				
-				//TODO
+				try{
+					FileOutputStream fos = new FileOutputStream("inventario.dat");
+					ObjectOutputStream oos = new ObjectOutputStream(fos);
+					
+					oos.writeObject(g);
+					oos.writeObject(p);
+					oos.writeObject(m);
+					oos.writeObject(e);
+				}
+				catch(IOException ex){
+					ex.printStackTrace();
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
 				
 			}
 			else{
