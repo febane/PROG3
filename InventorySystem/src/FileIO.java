@@ -4,10 +4,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -251,6 +253,39 @@ public class FileIO {
 		    }
 		}
 		
+	}
+	
+	
+	
+	/**
+	 * Método responsável por gerar a WhishList
+	 * 
+	 * @param m - Lista de midias cadastradas no sistema
+	 * @throws IOException
+	 */
+	public static void generatorWishList(List<Midia> m) throws IOException
+	{
+		Collections.sort(m);
+		
+		FileWriter file = new FileWriter("4-wishlist.csv");
+		PrintWriter saveFile = new PrintWriter(file);
+		
+		saveFile.println("Tipo;Mídia;Gênero;Preço");
+		
+		for (Midia midia : m) {
+			switch(midia.getType())
+			{
+				case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+					break;
+				case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+					break;
+				case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+					break;
+				default:
+			}
+		}
+		
+		file.close();	
 	}
 	
 

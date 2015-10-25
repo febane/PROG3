@@ -119,34 +119,5 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
 	}
 
 
-	/**
-	 * Método responsável por gerar a WhishList
-	 * 
-	 * @param m - Lista de midias cadastradas no sistema
-	 * @throws IOException
-	 */
-	public static void generatorWishList(List<Midia> m) throws IOException
-	{
-		Collections.sort(m);
-		
-		FileWriter file = new FileWriter("4-wishlist.csv");
-		PrintWriter saveFile = new PrintWriter(file);
-		
-		saveFile.println("Tipo;Mídia;Gênero;Preço");
-		
-		for (Midia midia : m) {
-			switch(midia.getType())
-			{
-				case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.genero.getNome()+";R$ "+midia.getPreco());
-					break;
-				case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.genero.getNome()+";R$ "+midia.getPreco());
-					break;
-				case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.genero.getNome()+";R$ "+midia.getPreco());
-					break;
-				default:
-			}
-		}
-		
-		file.close();	
-	}
+	
 }
