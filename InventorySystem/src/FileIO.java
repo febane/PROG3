@@ -263,11 +263,14 @@ public class FileIO {
 	 * @param m - Lista de midias cadastradas no sistema
 	 * @throws IOException
 	 */
-	public static void generatorWishList(List<Midia> m) throws IOException
+	public static void generatorWishList(List<Midia> m)
 	{
 		Collections.sort(m);
 		
-		FileWriter file = new FileWriter("4-wishlist.csv");
+		FileWriter file;
+		try {
+			file = new FileWriter("4-wishlist.csv");
+		
 		PrintWriter saveFile = new PrintWriter(file);
 		
 		saveFile.println("Tipo;Mídia;Gênero;Preço");
@@ -284,8 +287,13 @@ public class FileIO {
 				default:
 			}
 		}
+		file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		file.close();	
+		
 	}
 	
 
