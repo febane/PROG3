@@ -2,7 +2,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -163,7 +165,32 @@ public class FileIO {
 	}
 	
 	
-	
+	public static List<Emprestimo> readEmprestimos(String emprestimoFile,List<Midia> midiaList) throws FileNotFoundException, ParseException
+	{
+		List<Emprestimo> listEmprestimo = new ArrayList<>(); 
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); 
+		scanner = new Scanner(new FileReader(emprestimoFile));
+		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃO REGULAR JAVA
+		
+		System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
+		
+		while(scanner.hasNext())
+		{
+			Midia emprestada = midiaList.get(scanner.nextInt()-1);
+			String nome = scanner.next();
+			
+			Date emprestimo = (Date)format.parse(scanner.next());
+			Date devolucao = (Date)format.parse(scanner.next());
+			System.out.println(emprestada.getNome()+":"+nome+":"+emprestimo+":"+devolucao);
+			listEmprestimo.add(new Emprestimo(emprestada,nome,emprestimo,devolucao));
+			//listGenero.add(new Genero(sigla,nome));
+			//mapGenero.put(sigla, new Genero(sigla,nome));
+		}
+		scanner.close();
+		
+		return listEmprestimo;
+		
+	}
 	
 
 }

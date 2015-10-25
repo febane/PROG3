@@ -3,11 +3,11 @@ import java.util.Date;
 public class Emprestimo {
 	
 	private Midia midia;
-	private Pessoa tomador;
+	private String tomador;
 	private Date emprestimo;
 	private Date devolucao;
 	
-	public Emprestimo(Midia midia, Pessoa tomador, Date emprestimo,
+	public Emprestimo(Midia midia, String tomador, Date emprestimo,
 			Date devolucao) {
 		this.midia = midia;
 		this.tomador = tomador;
@@ -19,7 +19,7 @@ public class Emprestimo {
 		return midia;
 	}
 
-	public Pessoa getTomador() {
+	public String getTomador() {
 		return tomador;
 	}
 
