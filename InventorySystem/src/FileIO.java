@@ -1,8 +1,11 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 /**
@@ -81,7 +84,6 @@ public class FileIO {
 	{
 		List<Midia> listMidia = new ArrayList<>();
 		
-		
 		scanner = new Scanner(new FileReader(midiaFile));
 		scanner = scanner.useDelimiter("[;\\n]");
 		
@@ -107,7 +109,16 @@ public class FileIO {
 			boolean possui = (scanner.next()).equals("x");
 			boolean consumiu = scanner.next().equals("x");
 			boolean deseja = scanner.next().equals("x");
-			double preco = scanner.nextDouble();
+			NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+			String sPreco = scanner.next();
+			Number number = 0;
+			try{
+				number = format.parse(sPreco);
+			}
+			catch(ParseException e){
+				System.out.println("Erro ao ler preco");
+			}
+			double preco = number.doubleValue();
 			
 			switch(type)
 			{
