@@ -27,7 +27,13 @@ public class Pessoa implements Comparable<Pessoa>, Serializable {
 	@Override
 	public int compareTo(Pessoa o) {
 		// TODO Auto-generated method stub
-		return Integer.parseInt(this.nome) - Integer.parseInt(o.nome);
+		try{
+			return this.nome.compareTo(o.nome);
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return 0;
 	}
 
 }

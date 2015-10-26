@@ -115,15 +115,10 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
     		return 1;
     	else
     	{
-    		try{
-    			return this.getNome().compareTo(otherMidia.getNome());
-    		}
-    		catch(NullPointerException ex){
-    			ex.printStackTrace();
-    		}
+    		return this.getNome().toLowerCase().compareTo(otherMidia.getNome().toLowerCase());
+    		
     	}
     }
-    return 0;
     
     
 	}

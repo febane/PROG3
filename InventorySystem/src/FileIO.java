@@ -153,7 +153,7 @@ public class FileIO {
 	{
 		List<Pessoa> lista = new ArrayList<>();
 		@SuppressWarnings("resource")
-		Scanner s = new Scanner(codAtores).useDelimiter("[;\\n]+");
+		Scanner s = new Scanner(codAtores).useDelimiter("[,\\n]+");
 		
 		while(s.hasNextInt())
 		{
@@ -374,7 +374,7 @@ public class FileIO {
 	public static void writeMidiaPessoas(List<Midia> m, List<Pessoa> p){
 		
 		int i;
-		//Collections.sort(p);
+		Collections.sort(p);
 		BufferedWriter bw = null;
 		
 		try
@@ -405,7 +405,7 @@ public class FileIO {
 		    			else
 		    				for(Pessoa ptemp: ((Filme)mid).getAtores()){
 			    				if(pes.getNome().equals(ptemp.getNome())){
-			    					System.out.println(pes.getNome());
+			    					
 			    					temp.add(mid.getNome());
 			    					break;
 			    				}
