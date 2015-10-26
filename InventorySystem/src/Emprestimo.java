@@ -1,7 +1,8 @@
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
-public class Emprestimo implements Serializable {
+public class Emprestimo implements Serializable, Comparable<Emprestimo> {
 	
 	private Midia midia;
 	private String tomador;
@@ -31,5 +32,17 @@ public class Emprestimo implements Serializable {
 	public Date getDevolucao() {
 		return devolucao;
 	}
+
+	@Override
+	public int compareTo(Emprestimo arg0) {
+		// TODO Auto-generated method stub
+		if(this.emprestimo.before(arg0.getEmprestimo()))
+			return 1;
+		else if(this.emprestimo.after(arg0.getEmprestimo()))
+			return -1;
+		else
+			return 0;
+	}
+	
 
 }
