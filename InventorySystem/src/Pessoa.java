@@ -28,7 +28,7 @@ public class Pessoa implements Comparable<Pessoa>, Serializable {
 	public int compareTo(Pessoa o) {
 		// TODO Auto-generated method stub
 		try{
-			return this.nome.compareTo(o.nome);
+			return this.nome.compareToIgnoreCase(o.nome);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
