@@ -33,7 +33,8 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(generosFile));
 		scanner = scanner.useDelimiter("[;\\n]+");
 		
-		System.out.println(scanner.next()+":"+scanner.next());
+		//System.out.println(scanner.next()+":"+scanner.next());
+		System.out.println(scanner.nextLine());
 		
 		while(scanner.hasNext())
 		{
@@ -60,8 +61,9 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(pessoaFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-		System.out.println(scanner.next()+":"+scanner.next());
-
+		//System.out.println(scanner.next()+":"+scanner.next());
+		System.out.println(scanner.nextLine());
+		
 		while(scanner.hasNext())
 		{
 			int cod = Integer.parseInt(scanner.next());
@@ -85,14 +87,17 @@ public class FileIO {
 	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
 	{
 		List<Midia> listMidia = new ArrayList<>();
+		Midia novo;
 		
 		scanner = new Scanner(new FileReader(midiaFile));
 		scanner = scanner.useDelimiter("[;\\n]");
 		
 		// LOOP para descartar a linha de descriÃ§Ã£o do arquivo
-		for(int i = 0; i < 13; i++)
-			System.out.print(scanner.next()+" ");
+		//for(int i = 0; i < 13; i++)
+			//System.out.print(scanner.next()+" ");
 				
+		System.out.println(scanner.nextLine());
+		
 		while(scanner.hasNext())
 		{
 			Pessoa diretor = new Pessoa();
@@ -124,12 +129,16 @@ public class FileIO {
 			
 			switch(type)
 			{
-				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco));
-					break;
-				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco));
-					break;
-				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie));
-					break;
+			case 'L':	novo = new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco);
+						listMidia.add(novo);
+						gnr.addMidiaGen(novo);
+						break;
+			case 'F':	novo = new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco);	
+						listMidia.add(novo);
+						break;
+			case 'S':	novo = new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie);	
+						listMidia.add(novo);
+						break;
 				default: System.out.println("Este tipo de midia nÃ£o pode ser cadastrado!");
 			}
 			
@@ -179,7 +188,8 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(emprestimoFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-		System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
+		//System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
+		System.out.println(scanner.nextLine());
 		
 		while(scanner.hasNext())
 		{
