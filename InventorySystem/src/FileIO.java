@@ -8,18 +8,9 @@ import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Scanner;
+import java.util.*;
 /**
- * CLASSE RESPONSÃ�VEL PELA LEITURA E ESCRITA DE ARQUIVOS
+ * CLASSE RESPONSÁVEL PELA LEITURA E ESCRITA DE ARQUIVOS
  * 
  * @author Igor Ventorim (IVentorim) e Fernando Neto(Febane)
  *
@@ -30,7 +21,7 @@ public class FileIO {
 	/**
 	 * 
 	 * @param generosFile - Nome do arquivo que contem a lista de generos para leitura
-	 * @return ArrayLIst de generos guardado na memÃ³ria
+	 * @return ArrayLIst de generos guardado na memória
 	 * @throws FileNotFoundException
 	 */
 	public static Map<String,Genero> readGenero(String generosFile) throws FileNotFoundException
@@ -57,7 +48,7 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param pessoaFile - Nome do arquivo que contÃ©m a lista de pessoas para leitura
+	 * @param pessoaFile - Nome do arquivo que contém a lista de pessoas para leitura
 	 * @return Lista de pessoas cadastradas no sistema
 	 * @throws FileNotFoundException
 	 */
@@ -66,7 +57,7 @@ public class FileIO {
 		List<Pessoa> listPessoa = new ArrayList<>();
 		
 		scanner = new Scanner(new FileReader(pessoaFile));
-		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
+		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃO REGULAR JAVA
 		
 		System.out.println(scanner.next()+":"+scanner.next());
 
@@ -84,10 +75,10 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param midiaFile - Nome do arquivo que contÃ©m a lista de midias para a leitura
+	 * @param midiaFile - Nome do arquivo que contém a lista de midias para a leitura
 	 * @param listPessoas - Lista de pessoas cadastradas no sistema
-	 * @param mapGenero - Lista de gÃªneros cadastrados no sistema
-	 * @return	Lista de mÃ­dias cadastradas no sistema
+	 * @param mapGenero - Lista de gêneros cadastrados no sistema
+	 * @return	Lista de mídias cadastradas no sistema
 	 * @throws FileNotFoundException 
 	 */
 	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
@@ -97,7 +88,7 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(midiaFile));
 		scanner = scanner.useDelimiter("[;\\n]");
 		
-		// LOOP para descartar a linha de descriÃ§Ã£o do arquivo
+		// LOOP para descartar a linha de descrição do arquivo
 		for(int i = 0; i < 13; i++)
 			System.out.print(scanner.next()+" ");
 				
@@ -138,7 +129,7 @@ public class FileIO {
 					break;
 				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie));
 					break;
-				default: System.out.println("Este tipo de midia nÃ£o pode ser cadastrado!");
+				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
 			}
 			
 		}
@@ -152,9 +143,9 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param codAtores - String com  a lista de cÃ³digo de autores
-	 * @param l	- Lista de pessoas com os cÃ³digos de todas as pessoas cadastradas no sistema
-	 * @return	- Lista de atores que participaram de um filme ou sÃ©rie
+	 * @param codAtores - String com  a lista de código de autores
+	 * @param l	- Lista de pessoas com os códigos de todas as pessoas cadastradas no sistema
+	 * @return	- Lista de atores que participaram de um filme ou série
 	 * @throws FileNotFoundException
 	 */
 	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l) throws FileNotFoundException
@@ -174,9 +165,9 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param emprestimoFile - Nome do arquivo que contÃ©m a lista de emprÃ©stimos para a leitura
+	 * @param emprestimoFile - Nome do arquivo que contém a lista de empréstimos para a leitura
 	 * @param midiaList - Lista de midias cadastradas no sistema
-	 * @return - Lista de emprÃ©stimos cadastrados no sistema
+	 * @return - Lista de empréstimos cadastrados no sistema
 	 * @throws FileNotFoundException
 	 * @throws ParseException
 	 */
@@ -185,7 +176,7 @@ public class FileIO {
 		List<Emprestimo> listEmprestimo = new ArrayList<>(); 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); 
 		scanner = new Scanner(new FileReader(emprestimoFile));
-		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
+		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃO REGULAR JAVA
 		
 		System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
 		
@@ -207,10 +198,16 @@ public class FileIO {
 		
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void writeEmprestimos(List<Emprestimo> e){
 		
-		final Date hoje = new Date("06/11/2015");
+		Date hoje = null;
+		Collections.sort(e);
+		try{
+			hoje = new SimpleDateFormat("dd/MM/yyyy").parse("06/11/2015");
+		}
+		catch(ParseException ex){
+			ex.printStackTrace();
+		}
 		SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
 		
 		BufferedWriter bw = null;
@@ -221,17 +218,26 @@ public class FileIO {
 		    
 		    for(Emprestimo emp : e){
 		    	
-		    	bw.write(emp.getDevolucao().toString()+";"+emp.getTomador()+";");
+		    	String s = new SimpleDateFormat("dd/MM/yyyy").format(emp.getEmprestimo());
+		    	Date dev = null;
+		    	try{
+		    		dev = new SimpleDateFormat("dd/MM/yyyy").parse(s);
+		    	}
+		    	catch(ParseException ex){
+		    		ex.printStackTrace();
+		    	}
+		    	bw.write(s+";"+emp.getTomador()+";");
 		    	if(emp.getDevolucao().after(hoje)){
 		    		
-		    		int dias = (int)(emp.getDevolucao().getTime() - hoje.getTime());
-		    		
-		    		bw.write("Sim;"+dias+"\n");
+		    		bw.write("Não;0\n");
 		    		
 		    	}
 		    	else{
 		    		
-		    		bw.write("NÃ£o\n");
+		    		int dias = (int)((hoje.getTime() - emp.getDevolucao().getTime())/86400000);
+		    		
+		    		bw.write("Sim;"+dias+"\n");
+		    		
 		    		
 		    	}
 		    	
@@ -260,7 +266,7 @@ public class FileIO {
 	
 	
 	/**
-	 * MÃ©todo responsÃ¡vel por gerar a WhishList
+	 * Método responsável por gerar a WhishList
 	 * 
 	 * @param m - Lista de midias cadastradas no sistema
 	 * @throws IOException
@@ -275,93 +281,27 @@ public class FileIO {
 		
 		PrintWriter saveFile = new PrintWriter(file);
 		
-		saveFile.println("Tipo;MÃ­dia;GÃªnero;PreÃ§o");
+		saveFile.println("Tipo;Mídia;Gênero;Preço");
 		
 		for (Midia midia : m) {
-			
-			if(midia.isDeseja())
+			switch(midia.getType())
 			{
-				switch(midia.getType())
-				{
-					case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
-						break;
-					case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
-						break;
-					case 'S': saveFile.println("SÃ©rie;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
-						break;
-					default:
-				}
+				case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+					break;
+				case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+					break;
+				case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+					break;
+				default:
 			}
-			
-			
-			
 		}
 		file.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
-	}
-	
-	
-	public static void generatorEstatisticas(List<Midia> m, Map<String,Genero> g)
-	{
-		int horasConsumidas = 0;
-		int horasConsumir = 0;
-		List<Serie> listSerie = new ArrayList<>();
 		
 		
-	
-		for (Midia midia : m) {
-			if(midia.isConsumiu())
-				horasConsumidas += midia.getTamanho();
-			else
-				horasConsumir += midia.getTamanho();
-			
-			if(midia.getType() == 'S')
-				listSerie.add((Serie) midia);
-		}
-		
-		FileWriter file;
-		try {
-			file = new FileWriter("1-estatisticas.txt");
-			PrintWriter saveFile = new PrintWriter(file);
-			saveFile.println("Horas consumidas: "+horasConsumidas+" minutos\nHoras a consumir: "+horasConsumir+" minutos\n");
-			saveFile.println("Mídias por gênero:");
-			
-			for(Entry<String, Genero> genero: g.entrySet())
-			{
-				int contador = 0;
-				for (Midia midia : m) {
-					if(genero.getValue().getNome().equals(midia.getGenero()))
-						contador++;
-				}
-				saveFile.println("\r"+genero.getValue().getNome()+": "+contador+"\n");
-				
-			}
-			
-			Serie comparator = new Serie();
-//			Collections.sort(listSerie,comparator);
-			saveFile.println("Temporadas por série:");
-			for (Serie serie : listSerie) {
-				int contAssistida = 0, contAssistir = 0;
-				if(serie.isConsumiu())
-					contAssistida++;
-				else
-					contAssistir++;
-				
-				saveFile.println("\r"+serie.getNome()+": "+contAssistida+"assistidas");
-			}
-			
-			
-			file.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				
-	
 	}
 	
 
