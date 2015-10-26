@@ -30,7 +30,7 @@ public class Serie extends Midia{
 	public String getNomeSerie() {
 		return nome;
 	}
-
+	
 	//@Override
 	public int compare(Midia o1, Midia o2) {
 		// TODO Auto-generated method stub
