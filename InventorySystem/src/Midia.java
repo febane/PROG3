@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
 		this.preco = preco;
 		this.type = type;
 	}
+	
+	public Midia(){}
 
 	public char getType() {
 		return type;
@@ -95,7 +98,7 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
 	}
 	
 	/**
-	 * Método de critério de ordenação
+	 * Método de critério de ordenação wishList
 	 */
 	public int compareTo(Midia otherMidia) {
     if (this.type < otherMidia.type) {
@@ -117,6 +120,7 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
     }
     
 	}
+	
 
 
 	

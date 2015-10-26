@@ -79,7 +79,8 @@ public class Main {
 			idx = isIn(args, "-m");
 			if(idx!=-1){
 				
-				m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);
+				m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);				
+				FileIO.generatorWishList(m);
 				
 				if(!ro){
 					

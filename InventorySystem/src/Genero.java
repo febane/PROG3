@@ -5,6 +5,8 @@ public class Genero implements Serializable {
 
 	private String sigla;
 	private String nome;
+
+	
 	
 	public Genero(String sigla, String nome) {
 		this.sigla = sigla;
