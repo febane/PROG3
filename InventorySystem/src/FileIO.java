@@ -322,7 +322,7 @@ public class FileIO {
 	}
 	
 	
-	public static void generatorEstatisticas(List<Midia> m, Map<String,Genero> g)
+	public static <T> void generatorEstatisticas(List<Midia> m, Map<String,Genero> g)
 	{
 		int horasConsumidas = 0;
 		int horasConsumir = 0;
@@ -349,17 +349,10 @@ public class FileIO {
 			
 			for(Entry<String, Genero> genero: g.entrySet())
 			{
-				int contador = 0;
-				for (Midia midia : m) {
-					if(genero.getValue().getNome().equals(midia.getGenero()))
-						contador++;
-				}
-				saveFile.println("\r"+genero.getValue().getNome()+": "+contador+"\n");
+				//Collections.sort((List<Genero>)g);
 				
 			}
 			
-			Serie comparator = new Serie();
-//			Collections.sort(listSerie,comparator);
 			saveFile.println("Temporadas por série:");
 			for (Serie serie : listSerie) {
 				int contAssistida = 0, contAssistir = 0;

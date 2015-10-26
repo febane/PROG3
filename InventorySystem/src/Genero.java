@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Genero implements Serializable {
+public class Genero implements Serializable, Comparable<Genero> {
 
 	private String sigla;
 	private String nome;
@@ -27,6 +27,20 @@ public class Genero implements Serializable {
 	public void addMidiaGen(Midia m)
 	{
 		midiasGenero.add(m);
+	}
+
+	@Override
+	public int compareTo(Genero o) {
+		// TODO Auto-generated method stub
+		if(this.midiasGenero.size() < o.midiasGenero.size())
+		{
+			return -1;
+		}else if(this.midiasGenero.size() > o.midiasGenero.size())
+		{
+			return 1;
+		}else {
+			return this.getNome().compareTo(o.getNome());
+		}
 	}
 	
 }
