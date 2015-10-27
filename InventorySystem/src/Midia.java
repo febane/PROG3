@@ -94,7 +94,7 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
 	
 	public String toString()
 	{
-		return "Nome: "+nome+", tipo: "+type+", preço: "+preco;
+		return "Nome: "+nome+", tipo: "+type+", preço: "+preco+", tamanho: "+tamanho;
 	}
 	
 	/**
@@ -122,6 +122,10 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
     
     
 	}
+	
+	
+	
+	
 
 
 	

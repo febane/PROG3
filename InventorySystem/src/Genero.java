@@ -28,18 +28,23 @@ public class Genero implements Serializable, Comparable<Genero> {
 	{
 		midiasGenero.add(m);
 	}
+	
+	public int qtdGenero()
+	{
+		return midiasGenero.size();
+	}
 
 	@Override
 	public int compareTo(Genero o) {
 		// TODO Auto-generated method stub
-		if(this.midiasGenero.size() < o.midiasGenero.size())
+		if(this.midiasGenero.size() > o.midiasGenero.size())
 		{
 			return -1;
-		}else if(this.midiasGenero.size() > o.midiasGenero.size())
+		}else if(this.midiasGenero.size() < o.midiasGenero.size())
 		{
 			return 1;
 		}else {
-			return this.getNome().compareTo(o.getNome());
+			return this.getNome().compareToIgnoreCase(o.getNome());
 		}
 	}
 	

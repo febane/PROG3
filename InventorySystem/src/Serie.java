@@ -1,10 +1,15 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-public class Serie extends Midia{
+public class Serie extends Midia {
 	
 	private List<Pessoa> atores;
 	private String temporada;
 	private String nome;
+	private static Set<String> series = new TreeSet<>();
+	
 
 	
 	public Serie(int codigo, String nome, int tamanho, Genero genero,
@@ -15,6 +20,7 @@ public class Serie extends Midia{
 		this.temporada = temporada;
 		this.nome = nome2;
 		nome = nome2;
+
 	}
 	
 	public Serie(){}
@@ -31,10 +37,17 @@ public class Serie extends Midia{
 		return nome;
 	}
 	
-	//@Override
-	public int compare(Midia o1, Midia o2) {
-		// TODO Auto-generated method stub
-		return o1.getNome().compareTo(o2.getNome());
+	public void addNewSerie(String nameSerie)
+	{
+		series.add(nameSerie);
 	}
+		
+	public static Set<String> getSeries()
+	{
+		return series;
+	}
+	
+
+
 
 }

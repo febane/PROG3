@@ -82,10 +82,10 @@ public class Main {
 				m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);
 				
 				if(!ro){
-					
-					m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);				
+								
 					FileIO.generatorWishList(m);
 					FileIO.writeMidiaPessoas(m,p);
+					FileIO.generatorEstatisticas(m, g);
 					
 				}
 				

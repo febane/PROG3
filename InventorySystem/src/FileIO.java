@@ -33,8 +33,8 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(generosFile));
 		scanner = scanner.useDelimiter("[;\\n]+");
 		
-		System.out.println(scanner.next()+":"+scanner.next());
-		
+//		System.out.println(scanner.next()+":"+scanner.next());
+		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
 			String sigla = scanner.next();
@@ -60,8 +60,8 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(pessoaFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-		System.out.println(scanner.next()+":"+scanner.next());
-
+//		System.out.println(scanner.next()+":"+scanner.next());
+		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
 			int cod = Integer.parseInt(scanner.next());
@@ -85,13 +85,15 @@ public class FileIO {
 	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
 	{
 		List<Midia> listMidia = new ArrayList<>();
+		Midia novo;
+		Genero gnr;
 		
 		scanner = new Scanner(new FileReader(midiaFile));
 		scanner = scanner.useDelimiter("[;\\n]");
 		
 		// LOOP para descartar a linha de descriÃ§Ã£o do arquivo
-		for(int i = 0; i < 13; i++)
-			System.out.print(scanner.next()+" ");
+		//for(int i = 0; i < 13; i++)
+			System.out.println(scanner.nextLine());
 				
 		while(scanner.hasNext())
 		{
@@ -105,7 +107,7 @@ public class FileIO {
 			String listaAutores = scanner.next();
 			List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
 			int tamanho = scanner.nextInt();
-			Genero gnr = mapGenero.get(scanner.next());
+			gnr = mapGenero.get(scanner.next());
 			String serie = scanner.next();
 			String temporada = scanner.next();
 			boolean possui = (scanner.next()).equals("x");
@@ -124,13 +126,20 @@ public class FileIO {
 			
 			switch(type)
 			{
-				case 'L':	listMidia.add(new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco));
+				case 'L': novo = new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco);	
+					listMidia.add(novo);
+					gnr.addMidiaGen(novo);
 					break;
-				case 'F':	listMidia.add(new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco));
+				case 'F':	novo = new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco); 
+					listMidia.add(novo);
+					gnr.addMidiaGen(novo);
 					break;
-				case 'S':	listMidia.add(new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie));
+				case 'S':	novo = 	new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie);
+					listMidia.add(novo);
+					((Serie)novo).addNewSerie(serie);
+					gnr.addMidiaGen(novo);
 					break;
-				default: System.out.println("Este tipo de midia nÃ£o pode ser cadastrado!");
+				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
 			}
 			
 		}
@@ -138,7 +147,6 @@ public class FileIO {
 		for (Midia midia : listMidia) {
 			System.out.println(midia);
 		}
-			
 		return listMidia;
 	}
 	
@@ -179,8 +187,8 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(emprestimoFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-		System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
-		
+//		System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
+		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
 			Midia emprestada = midiaList.get(scanner.nextInt()-1);
@@ -312,22 +320,24 @@ public class FileIO {
 	}
 	
 	
-	public static <T> void generatorEstatisticas(List<Midia> m, Map<String,Genero> g)
+	public static void generatorEstatisticas(List<Midia> m, Map<String,Genero> g)
 	{
 		int horasConsumidas = 0;
 		int horasConsumir = 0;
-		List<Serie> listSerie = new ArrayList<>();
-		
-		
-	
+		List<Genero> listGenero = new ArrayList<>();
+		List<Serie> listSeries = new ArrayList<>();
+		Set<String> series = Serie.getSeries();
 		for (Midia midia : m) {
-			if(midia.isConsumiu())
-				horasConsumidas += midia.getTamanho();
-			else
-				horasConsumir += midia.getTamanho();
 			
-			if(midia.getType() == 'S')
-				listSerie.add((Serie) midia);
+			if(midia.getType() != 'L')
+			{				
+				if(midia.isConsumiu())
+					horasConsumidas += midia.getTamanho();
+				if(midia.isDeseja())		
+					horasConsumir += midia.getTamanho();					
+				if(midia.getType() == 'S')	
+					listSeries.add((Serie) midia);		
+			}
 		}
 		
 		FileWriter file;
@@ -337,24 +347,34 @@ public class FileIO {
 			saveFile.println("Horas consumidas: "+horasConsumidas+" minutos\nHoras a consumir: "+horasConsumir+" minutos\n");
 			saveFile.println("Mídias por gênero:");
 			
+			// POPULANDO LISTA DE GÊNEROS
 			for(Entry<String, Genero> genero: g.entrySet())
 			{
-				//Collections.sort((List<Genero>)g);
-				
+				listGenero.add(genero.getValue());
+			}
+			// ORDENANDO LISTA DE GÊNEROS
+			Collections.sort(listGenero);
+			//GRAVANDO NO ARQUIVO LISTA DE GÊNEROS
+			for (Genero gen : listGenero) {
+				saveFile.println("\t"+gen.getNome()+": "+gen.qtdGenero());	
 			}
 			
-			saveFile.println("Temporadas por série:");
-			for (Serie serie : listSerie) {
+			// PARTE DE SÉRIES
+			saveFile.println("\nTemporadas por série:");			
+			for (String string : series) {
 				int contAssistida = 0, contAssistir = 0;
-				if(serie.isConsumiu())
-					contAssistida++;
-				else
-					contAssistir++;
-				
-				saveFile.println("\r"+serie.getNome()+": "+contAssistida+"assistidas");
+				for (Serie s : listSeries) {
+					if(s.getNomeSerie().equals(string))
+					{
+						if(s.isConsumiu())
+							contAssistida++;
+						else
+							contAssistir++;
+					}
+				}
+				saveFile.println("\t"+string+": "+contAssistida+" assistidas, "+contAssistir+" a assistir");
 			}
-			
-			
+									
 			file.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
