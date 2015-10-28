@@ -1,19 +1,20 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
+@SuppressWarnings("serial")
 public class Genero implements Serializable, Comparable<Genero> {
 
 	private String sigla;
 	private String nome;
-	private List<Midia> midiasGenero = null;
+	private Set<Midia> midiasGenero = null;
 	
 	
 	public Genero(String sigla, String nome) {
 		this.sigla = sigla;
 		this.nome = nome;
-		midiasGenero = new ArrayList<>();
+		midiasGenero = new HashSet<>();//ArrayList<>();
 	}
 
 	public String getSigla() {

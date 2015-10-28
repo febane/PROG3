@@ -1,17 +1,16 @@
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.NumberFormat;
+//import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 /**
- * CLASSE RESPONSÃ�VEL PELA LEITURA E ESCRITA DE ARQUIVOS
+ * CLASSE RESPONSÁVEL PELA LEITURA E ESCRITA DE ARQUIVOS
  * 
  * @author Igor Ventorim (IVentorim) e Fernando Neto(Febane)
  *
@@ -113,31 +112,36 @@ public class FileIO {
 			boolean possui = (scanner.next()).equals("x");
 			boolean consumiu = scanner.next().equals("x");
 			boolean deseja = scanner.next().equals("x");
-			NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-			String sPreco = scanner.next();
-			Number number = 0;
-			try{
-				number = format.parse(sPreco);
-			}
-			catch(ParseException e){
-				System.out.println("Erro ao ler preco");
-			}
-			double preco = number.doubleValue();
+			double preco = Double.parseDouble((scanner.next()).replace(",", "."));
+			
+//			NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
+//			String sPreco = scanner.next();
+//			Number number = 0;
+//			try{
+//				number = format.parse(sPreco);
+//			}
+//			catch(ParseException e){
+//				System.out.println("Erro ao ler preco");
+//			}
+//			double preco = number.doubleValue();
 			
 			switch(type)
 			{
 				case 'L': novo = new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco);	
 					listMidia.add(novo);
 					gnr.addMidiaGen(novo);
+					relationPessoaMidia(novo, elenco);
 					break;
 				case 'F':	novo = new Filme(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,diretor,elenco); 
 					listMidia.add(novo);
 					gnr.addMidiaGen(novo);
+					relationPessoaMidia(novo, elenco);
 					break;
 				case 'S':	novo = 	new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie);
 					listMidia.add(novo);
 					((Serie)novo).addNewSerie(serie);
 					gnr.addMidiaGen(novo);
+					relationPessoaMidia(novo, elenco);
 					break;
 				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
 			}
@@ -151,9 +155,21 @@ public class FileIO {
 	}
 	
 	/**
+	 * Método que adiciona a midia em que uma pessoa trabalhou
+	 * @param m - Midia ao qual a pessoa trabalhou
+	 * @param p - Lista de pessoas que trabalharam nesta midia
+	 */
+	private static void relationPessoaMidia(Midia m, List<Pessoa> p)
+	{
+		for (Pessoa pessoa : p) {
+			pessoa.addMidia(m);
+		}
+	}
+	
+	/**
 	 * 
-	 * @param codAtores - String com  a lista de cÃ³digo de autores
-	 * @param l	- Lista de pessoas com os cÃ³digos de todas as pessoas cadastradas no sistema
+	 * @param codAtores - String com  a lista de código de autores
+	 * @param l	- Lista de pessoas com os códigos de todas as pessoas cadastradas no sistema
 	 * @return	- Lista de atores que participaram de um filme ou sÃ©rie
 	 * @throws FileNotFoundException
 	 */
@@ -165,7 +181,6 @@ public class FileIO {
 		
 		while(s.hasNextInt())
 		{
-			
 			lista.add(l.get(s.nextInt()-1));
 		}
 		
@@ -217,7 +232,7 @@ public class FileIO {
 		catch(ParseException ex){
 			ex.printStackTrace();
 		}
-		SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
+		//SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
 		
 		BufferedWriter bw = null;
 		try
@@ -228,13 +243,13 @@ public class FileIO {
 		    for(Emprestimo emp : e){
 		    	
 		    	String s = new SimpleDateFormat("dd/MM/yyyy").format(emp.getEmprestimo());
-		    	Date dev = null;
+/*		    	Date dev = null;
 		    	try{
 		    		dev = new SimpleDateFormat("dd/MM/yyyy").parse(s);
 		    	}
 		    	catch(ParseException ex){
 		    		ex.printStackTrace();
-		    	}
+		    	}*/
 		    	bw.write(s+";"+emp.getTomador()+";");
 		    	if(emp.getDevolucao().after(hoje)){
 		    		
@@ -275,7 +290,7 @@ public class FileIO {
 	
 	
 	/**
-	 * MÃ©todo responsÃ¡vel por gerar a WhishList
+	 * Método responsável por gerar a WhishList
 	 * 
 	 * @param m - Lista de midias cadastradas no sistema
 	 * @throws IOException
@@ -288,25 +303,25 @@ public class FileIO {
 		try {
 			file = new FileWriter("4-wishlist.csv");
 		
-		PrintWriter saveFile = new PrintWriter(file);
-		
-		saveFile.println("Tipo;Mídia;Gênero;Preço");
-		
-		for (Midia midia : m) {
+			PrintWriter saveFile = new PrintWriter(file);
 			
-			if(midia.isDeseja())
-			{
-				switch(midia.getType())
+			saveFile.println("Tipo;Mídia;Gênero;Preço");
+			
+			for (Midia midia : m) {
+				
+				if(midia.isDeseja())
 				{
-					case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
-						break;
-					case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
-						break;
-					case 'S': saveFile.println("SÃ©rie;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
-						break;
-					default:
+					switch(midia.getType())
+					{
+						case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+							break;
+						case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+							break;
+						case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+							break;
+						default:
+					}
 				}
-			}
 			
 			
 			
@@ -319,7 +334,11 @@ public class FileIO {
 				
 	}
 	
-	
+	/**
+	 * Método responsável por gerar as estatisticas do sistema e gravar em um arquivo txt
+	 * @param m - Lista de Midias cadastradas no sistema
+	 * @param g - Lista de Gêneros cadastrados no sistema
+	 */
 	public static void generatorEstatisticas(List<Midia> m, Map<String,Genero> g)
 	{
 		int horasConsumidas = 0;

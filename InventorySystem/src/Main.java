@@ -12,6 +12,7 @@ import java.util.Map;
 public class Main {
 	
 	private static ObjectInputStream ois;
+	private static ObjectOutputStream oos;
 
 	public static void main(String[] args) throws IOException, ParseException {
 		
@@ -82,7 +83,7 @@ public class Main {
 				m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);
 				
 				if(!ro){
-								
+					//m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);			
 					FileIO.generatorWishList(m);
 					FileIO.writeMidiaPessoas(m,p);
 					FileIO.generatorEstatisticas(m, g);
@@ -108,7 +109,7 @@ public class Main {
 				
 				try{
 					FileOutputStream fos = new FileOutputStream("inventario.dat");
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
+					oos = new ObjectOutputStream(fos);
 					
 					oos.writeObject(g);
 					oos.writeObject(p);

@@ -1,7 +1,7 @@
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class Emprestimo implements Serializable, Comparable<Emprestimo> {
 	
 	private Midia midia;

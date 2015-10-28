@@ -1,20 +1,23 @@
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
+@SuppressWarnings("serial")
 public class Pessoa implements Comparable<Pessoa>, Serializable {
 	
 	private int codigo;
 	private String nome;
+	private Set<Midia> trabalhos = null;
 
 	public Pessoa(int codigo, String nome) {
 		//super();
 		this.codigo = codigo;
 		this.nome = nome;
+		this.trabalhos = new HashSet<>();
 	}
 	
-	public Pessoa(){
-		
-	}
+	public Pessoa(){}
 
 	public int getCodigo() {
 		return codigo;
@@ -22,6 +25,16 @@ public class Pessoa implements Comparable<Pessoa>, Serializable {
 
 	public String getNome() {
 		return nome;
+	}
+	
+	public void addMidia(Midia m)
+	{
+		this.trabalhos.add(m);
+	}
+	
+	public int qtdTrabalhos()
+	{
+		return this.trabalhos.size();
 	}
 
 	@Override

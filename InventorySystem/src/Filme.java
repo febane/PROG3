@@ -1,5 +1,6 @@
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class Filme extends Midia {
 
 	private Pessoa diretor;
