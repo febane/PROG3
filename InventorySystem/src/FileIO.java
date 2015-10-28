@@ -136,6 +136,7 @@ public class FileIO {
 					listMidia.add(novo);
 					gnr.addMidiaGen(novo);
 					relationPessoaMidia(novo, elenco);
+					diretor.addMidia(novo);
 					break;
 				case 'S':	novo = 	new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie);
 					listMidia.add(novo);
