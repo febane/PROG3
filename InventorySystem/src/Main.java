@@ -29,10 +29,16 @@ public class Main {
 				FileInputStream fis = new FileInputStream("inventario.dat");
 				ois = new ObjectInputStream(fis);
 				
-				g = (Map<String, Genero>) ois.readObject();
-				p = (List<Pessoa>) ois.readObject();
-				m = (List<Midia>) ois.readObject();
-				e = (List<Emprestimo>) ois.readObject();
+				g = ((Map<String, Genero>) ois.readObject());
+				p = ((List<Pessoa>) ois.readObject());
+				m = ((List<Midia>) ois.readObject());
+				e = ((List<Emprestimo>) ois.readObject());
+				
+				FileIO.generatorWishList(m);
+				FileIO.writeMidiaPessoas(m,p);
+				FileIO.generatorEstatisticas(m, g);
+				FileIO.writeEmprestimos(e);
+				
 			}
 			catch(IOException ex){
 				ex.printStackTrace();
@@ -40,8 +46,6 @@ public class Main {
 			catch(Exception ex){
 				ex.printStackTrace();
 			}
-			
-			//TODO
 			
 		}
 		else{
@@ -56,24 +60,12 @@ public class Main {
 				
 				g = FileIO.readGenero(new File(".").getCanonicalPath()+"/"+args[idx+1]);
 				
-				if(!ro){
-					
-					//TODO;
-					
-				}
-				
 			}
 			
 			idx = isIn(args, "-p");
 			if(idx!=-1){
 				
 				p = FileIO.readPessoa(new File(".").getCanonicalPath()+"/"+args[idx+1]);
-				
-				if(!ro){
-					
-					//TODO
-					
-				}
 				
 			}
 			
@@ -83,7 +75,7 @@ public class Main {
 				m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);
 				
 				if(!ro){
-					//m = FileIO.readMidia(new File(".").getCanonicalPath()+"/"+args[idx+1],p,g);			
+					
 					FileIO.generatorWishList(m);
 					FileIO.writeMidiaPessoas(m,p);
 					FileIO.generatorEstatisticas(m, g);

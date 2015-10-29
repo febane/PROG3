@@ -37,6 +37,10 @@ public class Pessoa implements Comparable<Pessoa>, Serializable {
 		return this.trabalhos.size();
 	}
 
+	public Set<Midia> getTrabalhos() {
+		return trabalhos;
+	}
+	
 	@Override
 	public int compareTo(Pessoa o) {
 		// TODO Auto-generated method stub

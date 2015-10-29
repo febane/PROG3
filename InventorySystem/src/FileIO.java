@@ -233,7 +233,6 @@ public class FileIO {
 		catch(ParseException ex){
 			ex.printStackTrace();
 		}
-		//SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
 		
 		BufferedWriter bw = null;
 		try
@@ -244,13 +243,7 @@ public class FileIO {
 		    for(Emprestimo emp : e){
 		    	
 		    	String s = new SimpleDateFormat("dd/MM/yyyy").format(emp.getEmprestimo());
-/*		    	Date dev = null;
-		    	try{
-		    		dev = new SimpleDateFormat("dd/MM/yyyy").parse(s);
-		    	}
-		    	catch(ParseException ex){
-		    		ex.printStackTrace();
-		    	}*/
+		    	
 		    	bw.write(s+";"+emp.getTomador()+";");
 		    	if(emp.getDevolucao().after(hoje)){
 		    		
@@ -419,41 +412,9 @@ public class FileIO {
 		    	
 		    	List<String> temp = new LinkedList<String>();
 		    	
-		    	for(Midia mid : m){
+		    	for(Midia mid : pes.getTrabalhos()){
 		    		
-		    		switch(mid.getType()){
-		    		
-		    		case 'L':
-		    			for(Pessoa ptemp: ((Livro)mid).getAutores()){
-		    				if(pes.getNome().equals(ptemp.getNome())){
-		    					temp.add(mid.getNome());
-		    					break;
-		    				}
-		    			}
-		    			break;
-		    		
-		    		case 'F':
-		    			if(((Filme)mid).getDiretor().getNome().equals(pes.getNome()))
-		    				temp.add(mid.getNome());
-		    			else
-		    				for(Pessoa ptemp: ((Filme)mid).getAtores()){
-			    				if(pes.getNome().equals(ptemp.getNome())){
-			    					
-			    					temp.add(mid.getNome());
-			    					break;
-			    				}
-		    				}
-		    			break;
-		    			
-		    		case 'S':
-		    			for(Pessoa ptemp: ((Serie)mid).getAtores())
-		    				if(pes.getNome().equals(ptemp.getNome())){
-		    					temp.add(mid.getNome());
-		    					break;
-		    				}
-		    			break;
-		    		
-		    		}
+		    		temp.add(mid.getNome());
 		    	
 		    	}
 		    	
