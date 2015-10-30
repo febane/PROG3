@@ -1,5 +1,7 @@
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -37,6 +39,8 @@ public class Genero implements Serializable, Comparable<Genero> {
 
 	@Override
 	public int compareTo(Genero o) {
+		Locale br = new Locale("pt","BR");
+		Collator collator = Collator.getInstance(br);
 		// TODO Auto-generated method stub
 		if(this.midiasGenero.size() > o.midiasGenero.size())
 		{
@@ -45,7 +49,7 @@ public class Genero implements Serializable, Comparable<Genero> {
 		{
 			return 1;
 		}else {
-			return this.getNome().compareToIgnoreCase(o.getNome());
+			return collator.compare(this.getNome(), o.getNome());//this.getNome().compareToIgnoreCase(o.getNome());
 		}
 	}
 	

@@ -1,5 +1,7 @@
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -44,8 +46,11 @@ public class Pessoa implements Comparable<Pessoa>, Serializable {
 	@Override
 	public int compareTo(Pessoa o) {
 		// TODO Auto-generated method stub
+		Locale br = new Locale("pt","BR");
+		Collator collator = Collator.getInstance(br);
 		try{
-			return this.nome.compareToIgnoreCase(o.nome);
+			//return this.nome.compareToIgnoreCase(o.nome);
+			return collator.compare(this.getNome(), o.getNome());
 		}
 		catch(Exception ex){
 			ex.printStackTrace();

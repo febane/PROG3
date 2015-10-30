@@ -247,7 +247,7 @@ public class FileIO {
 		    	bw.write(s+";"+emp.getTomador()+";");
 		    	if(emp.getDevolucao().after(hoje)){
 		    		
-		    		bw.write("Não;0\n");
+		    		bw.write("Não;\n");
 		    		
 		    	}
 		    	else{

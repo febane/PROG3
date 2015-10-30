@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.text.Collator;
+import java.util.Locale;
 
 
 
@@ -96,6 +98,8 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
 	 * Método de critério de ordenação
 	 */
 	public int compareTo(Midia otherMidia) {
+		Locale br = new Locale("pt","BR");
+		Collator collator = Collator.getInstance(br);
     if (this.type < otherMidia.type) {
         return -1;
     }
@@ -110,7 +114,8 @@ public abstract class Midia implements Serializable, Comparable<Midia>{
     		return 1;
     	else
     	{
-    		return this.getNome().compareToIgnoreCase(otherMidia.getNome());
+    		//return this.getNome().compareToIgnoreCase(otherMidia.getNome());
+    		return collator.compare(this.getNome(), otherMidia.getNome());
     		
     	}
     }

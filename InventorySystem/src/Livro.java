@@ -1,5 +1,6 @@
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class Livro extends Midia {
 	
 	private List<Pessoa> autores;
