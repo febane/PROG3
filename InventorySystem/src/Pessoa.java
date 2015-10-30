@@ -1,8 +1,8 @@
 import java.io.Serializable;
 import java.text.Collator;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 @SuppressWarnings("serial")
@@ -16,7 +16,7 @@ public class Pessoa implements Comparable<Pessoa>, Serializable {
 		//super();
 		this.codigo = codigo;
 		this.nome = nome;
-		this.trabalhos = new HashSet<>();
+		this.trabalhos = new TreeSet<>();
 	}
 	
 	public Pessoa(){}

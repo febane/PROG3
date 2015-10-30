@@ -59,7 +59,6 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(pessoaFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-//		System.out.println(scanner.next()+":"+scanner.next());
 		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
@@ -69,7 +68,7 @@ public class FileIO {
 			listPessoa.add(new Pessoa(cod,nome));
 		}
 		scanner.close();
-		//Collections.sort(listPessoa);		
+
 		return listPessoa;
 	}
 	
@@ -113,18 +112,7 @@ public class FileIO {
 			boolean consumiu = scanner.next().equals("x");
 			boolean deseja = scanner.next().equals("x");
 			double preco = Double.parseDouble((scanner.next()).replace(",", "."));
-			
-//			NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-//			String sPreco = scanner.next();
-//			Number number = 0;
-//			try{
-//				number = format.parse(sPreco);
-//			}
-//			catch(ParseException e){
-//				System.out.println("Erro ao ler preco");
-//			}
-//			double preco = number.doubleValue();
-			
+
 			switch(type)
 			{
 				case 'L': novo = new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco);	
@@ -202,8 +190,7 @@ public class FileIO {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); 
 		scanner = new Scanner(new FileReader(emprestimoFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
-		
-//		System.out.println(scanner.next()+":"+scanner.next()+":"+scanner.next()+":"+scanner.next());
+
 		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
@@ -214,8 +201,7 @@ public class FileIO {
 			Date devolucao = (Date)format.parse(scanner.next());
 			System.out.println(emprestada.getNome()+":"+nome+":"+emprestimo+":"+devolucao);
 			listEmprestimo.add(new Emprestimo(emprestada,nome,emprestimo,devolucao));
-			//listGenero.add(new Genero(sigla,nome));
-			//mapGenero.put(sigla, new Genero(sigla,nome));
+			
 		}
 		scanner.close();
 		
@@ -260,6 +246,7 @@ public class FileIO {
 		    	}
 		    	
 		    }
+		    bw.close();
 
 		}
 		catch ( IOException ex)
@@ -399,7 +386,6 @@ public class FileIO {
 	
 	public static void writeMidiaPessoas(List<Midia> m, List<Pessoa> p){
 		
-		int i;
 		Collections.sort(p);
 		BufferedWriter bw = null;
 		
@@ -409,26 +395,30 @@ public class FileIO {
 		    bw.write("Pessoa;Produção\n");
 		    
 		    for(Pessoa pes : p){
+//		    	bw.write(pes.getNome()+";");
+//		    	for (Midia trabalhos : pes.getTrabalhos()) {
+//		    		bw.write(trabalhos.getNome()+", ");		 
+//				}
+//		    	bw.write("\n");
 		    	
-		    	List<String> temp = new LinkedList<String>();
+		    List<String> temp = new LinkedList<String>();
 		    	
 		    	for(Midia mid : pes.getTrabalhos()){
-		    		
-		    		temp.add(mid.getNome());
-		    	
+		    		temp.add(mid.getNome());    	
 		    	}
 		    	
 		    	Collections.sort(temp);
 	    		
 	    		if(temp.size()>0){
 	    			bw.write(pes.getNome()+";");
-	    			for(i=0;i<temp.size()-1;i++){
+	    			for(int i=0;i<temp.size()-1;i++){
 	    				bw.write(temp.get(i)+", ");
 	    			}
-	    			bw.write(temp.get(i)+"\n");
+	    			bw.write(temp.get(temp.size()-1)+"\n");
 	    		}
 		    	
 		    }
+		    bw.close();
 
 		}
 		catch ( IOException ex)
