@@ -14,6 +14,12 @@ public class Main {
 	private static ObjectInputStream ois;
 	private static ObjectOutputStream oos;
 
+	/**
+	 * Metodo principal para execucao do programa
+	 * @param args argumentos passados por linha de comando
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public static void main(String[] args) throws IOException, ParseException {
 		
 		List<Pessoa> p = null;
@@ -121,6 +127,12 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Verifica se um string pertence a um vetor de strings
+	 * @param args vetor de strings
+	 * @param param string a ser procurado no vetor
+	 * @return indice do string no vetor ou -1 caso nao foi encontrado
+	 */
 	public static int isIn(String[] args, String param){
 		
 		int i;

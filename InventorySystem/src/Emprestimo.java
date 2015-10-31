@@ -9,6 +9,13 @@ public class Emprestimo implements Serializable, Comparable<Emprestimo> {
 	private Date emprestimo;
 	private Date devolucao;
 	
+	/**
+	 * Construtor de Emprestimo
+	 * @param midia midia emprestada
+	 * @param tomador quem tomou a midia
+	 * @param emprestimo data de emprestimo
+	 * @param devolucao data de devolucao
+	 */
 	public Emprestimo(Midia midia, String tomador, Date emprestimo,
 			Date devolucao) {
 		this.midia = midia;
@@ -17,18 +24,34 @@ public class Emprestimo implements Serializable, Comparable<Emprestimo> {
 		this.devolucao = devolucao;
 	}
 
+	/**
+	 * Pega midia
+	 * @return midia
+	 */
 	public Midia getMidia() {
 		return midia;
 	}
 
+	/**
+	 * Pega tomador
+	 * @return tomador
+	 */
 	public String getTomador() {
 		return tomador;
 	}
 
+	/**
+	 * Pega data de emprestimo
+	 * @return data de emprestimo
+	 */
 	public Date getEmprestimo() {
 		return emprestimo;
 	}
 
+	/**
+	 * Pega data de devolucao
+	 * @return data de devolucao
+	 */
 	public Date getDevolucao() {
 		return devolucao;
 	}

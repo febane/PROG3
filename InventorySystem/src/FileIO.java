@@ -19,9 +19,9 @@ public class FileIO {
 	
 	private static Scanner scanner;
 	/**
-	 * 
+	 * Le generos de arquivo de generos
 	 * @param generosFile - Nome do arquivo que contem a lista de generos para leitura
-	 * @return ArrayLIst de generos guardado na memÃ³ria
+	 * @return ArrayLIst de generos guardado na memoria
 	 * @throws FileNotFoundException
 	 */
 	public static Map<String,Genero> readGenero(String generosFile) throws FileNotFoundException
@@ -32,14 +32,11 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(generosFile));
 		scanner = scanner.useDelimiter("[;\\n]+");
 		
-//		System.out.println(scanner.next()+":"+scanner.next());
 		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
 			String sigla = scanner.next();
 			String nome = scanner.next();
-			System.out.println(sigla+":"+nome);
-			//listGenero.add(new Genero(sigla,nome));
 			mapGenero.put(sigla, new Genero(sigla,nome));
 		}
 		scanner.close();
@@ -47,8 +44,8 @@ public class FileIO {
 	}
 	
 	/**
-	 * 
-	 * @param pessoaFile - Nome do arquivo que contÃ©m a lista de pessoas para leitura
+	 * Le pessoas de arquivos de pessoas
+	 * @param pessoaFile - Nome do arquivo que contem a lista de pessoas para leitura
 	 * @return Lista de pessoas cadastradas no sistema
 	 * @throws FileNotFoundException
 	 */
@@ -64,7 +61,6 @@ public class FileIO {
 		{
 			int cod = Integer.parseInt(scanner.next());
 			String nome = scanner.next();
-			System.out.println(cod+":"+nome);
 			listPessoa.add(new Pessoa(cod,nome));
 		}
 		scanner.close();
@@ -73,10 +69,10 @@ public class FileIO {
 	}
 	
 	/**
-	 * 
-	 * @param midiaFile - Nome do arquivo que contÃ©m a lista de midias para a leitura
+	 * Le midias de arquivo de midias
+	 * @param midiaFile - Nome do arquivo que contem a lista de midias para a leitura
 	 * @param listPessoas - Lista de pessoas cadastradas no sistema
-	 * @param mapGenero - Lista de gÃªneros cadastrados no sistema
+	 * @param mapGenero - Lista de generos cadastrados no sistema
 	 * @return	Lista de mÃ­dias cadastradas no sistema
 	 * @throws FileNotFoundException 
 	 */
@@ -91,8 +87,9 @@ public class FileIO {
 		
 		// LOOP para descartar a linha de descriÃ§Ã£o do arquivo
 		//for(int i = 0; i < 13; i++)
-			System.out.println(scanner.nextLine());
-				
+		
+		System.out.println(scanner.nextLine());
+		
 		while(scanner.hasNext())
 		{
 			Pessoa diretor = new Pessoa();
@@ -137,9 +134,6 @@ public class FileIO {
 			
 		}
 		
-		for (Midia midia : listMidia) {
-			System.out.println(midia);
-		}
 		return listMidia;
 	}
 	
@@ -159,7 +153,7 @@ public class FileIO {
 	 * 
 	 * @param codAtores - String com  a lista de código de autores
 	 * @param l	- Lista de pessoas com os códigos de todas as pessoas cadastradas no sistema
-	 * @return	- Lista de atores que participaram de um filme ou sÃ©rie
+	 * @return	- Lista de atores que participaram de um filme ou serie
 	 * @throws FileNotFoundException
 	 */
 	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l) throws FileNotFoundException
@@ -178,9 +172,9 @@ public class FileIO {
 	
 	/**
 	 * 
-	 * @param emprestimoFile - Nome do arquivo que contÃ©m a lista de emprÃ©stimos para a leitura
+	 * @param emprestimoFile - Nome do arquivo que contem a lista de emprestimos para a leitura
 	 * @param midiaList - Lista de midias cadastradas no sistema
-	 * @return - Lista de emprÃ©stimos cadastrados no sistema
+	 * @return - Lista de emprestimos cadastrados no sistema
 	 * @throws FileNotFoundException
 	 * @throws ParseException
 	 */
@@ -190,7 +184,7 @@ public class FileIO {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); 
 		scanner = new Scanner(new FileReader(emprestimoFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
-
+		
 		System.out.println(scanner.nextLine());
 		while(scanner.hasNext())
 		{
@@ -199,7 +193,6 @@ public class FileIO {
 			
 			Date emprestimo = (Date)format.parse(scanner.next());
 			Date devolucao = (Date)format.parse(scanner.next());
-			System.out.println(emprestada.getNome()+":"+nome+":"+emprestimo+":"+devolucao);
 			listEmprestimo.add(new Emprestimo(emprestada,nome,emprestimo,devolucao));
 			
 		}
@@ -209,6 +202,10 @@ public class FileIO {
 		
 	}
 	
+	/**
+	 * Geracao de relatorio de emprestimos efetuados
+	 * @param e lista de emprestimos
+	 */
 	public static void writeEmprestimos(List<Emprestimo> e){
 		
 		Date hoje = null;
@@ -384,6 +381,11 @@ public class FileIO {
 	
 	}
 	
+	/**
+	 * Metodo para geracao de relatorio de midias por pessoa
+	 * @param m lista de midias
+	 * @param p lista de pessoas
+	 */
 	public static void writeMidiaPessoas(List<Midia> m, List<Pessoa> p){
 		
 		Collections.sort(p);
@@ -395,13 +397,8 @@ public class FileIO {
 		    bw.write("Pessoa;Produção\n");
 		    
 		    for(Pessoa pes : p){
-//		    	bw.write(pes.getNome()+";");
-//		    	for (Midia trabalhos : pes.getTrabalhos()) {
-//		    		bw.write(trabalhos.getNome()+", ");		 
-//				}
-//		    	bw.write("\n");
 		    	
-		    List<String> temp = new LinkedList<String>();
+		    	List<String> temp = new LinkedList<String>();
 		    	
 		    	for(Midia mid : pes.getTrabalhos()){
 		    		temp.add(mid.getNome());    	
