@@ -13,25 +13,46 @@ public class Genero implements Serializable, Comparable<Genero> {
 	private Set<Midia> midiasGenero = null;
 	
 	
+	/**
+	 * Construtor de Genero
+	 * @param sigla sigla do genero
+	 * @param nome nome do genero
+	 */
 	public Genero(String sigla, String nome) {
 		this.sigla = sigla;
 		this.nome = nome;
 		midiasGenero = new HashSet<>();//ArrayList<>();
 	}
 
+	/**
+	 * Pega sigla do genero
+	 * @return sigla do genero
+	 */
 	public String getSigla() {
 		return sigla;
 	}
 
+	/**
+	 * Pega nome do genero
+	 * @return nome do genero
+	 */
 	public String getNome() {
 		return nome;
 	}
 	
+	/**
+	 * Adiciona midia com genero correspondente
+	 * @param m midia a ser adicionada
+	 */
 	public void addMidiaGen(Midia m)
 	{
 		midiasGenero.add(m);
 	}
 	
+	/**
+	 * Retorna quantidade de generos
+	 * @return quantidade de generos
+	 */
 	public int qtdGenero()
 	{
 		return midiasGenero.size();
