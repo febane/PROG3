@@ -1,6 +1,6 @@
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+//import java.util.Set;
+//import java.util.TreeSet;
 
 @SuppressWarnings("serial")
 public class Serie extends Midia {
@@ -8,7 +8,7 @@ public class Serie extends Midia {
 	private List<Pessoa> atores;
 	private String temporada;
 	private String nameSerie;
-	private static Set<String> series = new TreeSet<>();
+//	private static Set<String> series = new TreeSet<>();
 		
 	/**
 	 * Construtor de Serie
@@ -59,23 +59,23 @@ public class Serie extends Midia {
 		return nameSerie;
 	}
 	
-	/**
-	 * Adiciona nova serie
-	 * @param nameSerie nome da serie
-	 */
-	public void addNewSerie(String nameSerie)
-	{
-		series.add(nameSerie);
-	}
-		
-	/**
-	 * Pega conjunto dos nomes das series
-	 * @return nomes das series
-	 */
-	public static Set<String> getSeries()
-	{
-		return series;
-	}
+//	/**
+//	 * Adiciona nova serie
+//	 * @param nameSerie nome da serie
+//	 */
+//	public void addNewSerie(String nameSerie)
+//	{
+//		series.add(nameSerie);
+//	}
+//		
+//	/**
+//	 * Pega conjunto dos nomes das series
+//	 * @return nomes das series
+//	 */
+//	public static Set<String> getSeries()
+//	{
+//		return series;
+//	}
 	
 
 

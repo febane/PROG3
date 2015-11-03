@@ -15,7 +15,7 @@ import java.util.Map.Entry;
  * @author Igor Ventorim (IVentorim) e Fernando Neto(Febane)
  *
  */
-public class FileIO {
+public class FileIO{
 	
 	private static Scanner scanner;
 	/**
@@ -32,7 +32,9 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(generosFile));
 		scanner = scanner.useDelimiter("[;\\n]+");
 		
-		System.out.println(scanner.nextLine());
+//		System.out.println(scanner.nextLine());
+		scanner.nextLine();
+		
 		while(scanner.hasNext())
 		{
 			String sigla = scanner.next();
@@ -56,7 +58,8 @@ public class FileIO {
 		scanner = new Scanner(new FileReader(pessoaFile));
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-		System.out.println(scanner.nextLine());
+		//System.out.println(scanner.nextLine());
+		scanner.nextLine();
 		while(scanner.hasNext())
 		{
 			int cod = Integer.parseInt(scanner.next());
@@ -88,8 +91,8 @@ public class FileIO {
 		// LOOP para descartar a linha de descriÃ§Ã£o do arquivo
 		//for(int i = 0; i < 13; i++)
 		
-		System.out.println(scanner.nextLine());
-		
+//		System.out.println(scanner.nextLine());
+		scanner.nextLine();
 		while(scanner.hasNext())
 		{
 			Pessoa diretor = new Pessoa();
@@ -125,7 +128,7 @@ public class FileIO {
 					break;
 				case 'S':	novo = 	new Serie(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco,temporada,serie);
 					listMidia.add(novo);
-					((Serie)novo).addNewSerie(serie);
+//					((Serie)novo).addNewSerie(serie);
 					gnr.addMidiaGen(novo);
 					relationPessoaMidia(novo, elenco);
 					break;
@@ -323,7 +326,7 @@ public class FileIO {
 		int horasConsumir = 0;
 		List<Genero> listGenero = new ArrayList<>();
 		List<Serie> listSeries = new ArrayList<>();
-		Set<String> series = Serie.getSeries();
+		Set<String> series = null;
 		for (Midia midia : m) {
 			
 			if(midia.getType() != 'L')
@@ -357,6 +360,7 @@ public class FileIO {
 			}
 			
 			// PARTE DE SÉRIES
+			series = FileIO.seriesInv(listSeries);
 			saveFile.println("\nTemporadas por série:");			
 			for (String string : series) {
 				int contAssistida = 0, contAssistir = 0;
@@ -379,6 +383,22 @@ public class FileIO {
 		}
 				
 	
+	}
+	
+	/**
+	 * Metodo para conferir o nome de todas as series cadastradas no inventário
+	 * @param s lista de séries que possuem no inventário
+	 * @return	nome das séries que possui no inventário
+	 */
+	private static Set<String> seriesInv(List<Serie> s)
+	{
+		Set<String> seriesInventario = new TreeSet<>();
+		
+		for (Serie serie : s) {
+			seriesInventario.add(serie.getNomeSerie());
+		}
+		
+		return seriesInventario;
 	}
 	
 	/**
