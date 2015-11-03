@@ -20,6 +20,7 @@ public class Main {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException, ParseException {
 		
 		List<Pessoa> p = null;
@@ -35,7 +36,7 @@ public class Main {
 				FileInputStream fis = new FileInputStream("inventario.dat");
 				ois = new ObjectInputStream(fis);
 				
-				g = ((Map<String, Genero>) ois.readObject());
+				g =  (Map<String, Genero>) ois.readObject();
 				p = ((List<Pessoa>) ois.readObject());
 				m = ((List<Midia>) ois.readObject());
 				e = ((List<Emprestimo>) ois.readObject());

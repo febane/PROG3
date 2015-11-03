@@ -1,20 +1,14 @@
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-//import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.*;
+import java.text.*;
 import java.util.*;
-import java.util.Map.Entry;
+import java.util.Map.*;
 /**
  * CLASSE RESPONSÁVEL PELA LEITURA E ESCRITA DE ARQUIVOS
  * 
  * @author Igor Ventorim (IVentorim) e Fernando Neto(Febane)
  *
  */
+
 public class FileIO{
 	
 	private static Scanner scanner;
@@ -24,12 +18,19 @@ public class FileIO{
 	 * @return ArrayLIst de generos guardado na memoria
 	 * @throws FileNotFoundException
 	 */
-	public static Map<String,Genero> readGenero(String generosFile) throws FileNotFoundException
+	public static Map<String,Genero> readGenero(String generosFile)
 	{
 		//List<Genero> listGenero = new ArrayList<>();
 		Map<String,Genero> mapGenero = new HashMap<>();
 		
-		scanner = new Scanner(new FileReader(generosFile));
+		try {
+			scanner = new Scanner(new FileReader(generosFile));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Erro de I/O");
+			return null;
+		}
 		scanner = scanner.useDelimiter("[;\\n]+");
 		
 //		System.out.println(scanner.nextLine());
@@ -51,18 +52,32 @@ public class FileIO{
 	 * @return Lista de pessoas cadastradas no sistema
 	 * @throws FileNotFoundException
 	 */
-	public static List<Pessoa> readPessoa(String pessoaFile) throws FileNotFoundException
+	public static List<Pessoa> readPessoa(String pessoaFile)
 	{
 		List<Pessoa> listPessoa = new ArrayList<>();
 		
-		scanner = new Scanner(new FileReader(pessoaFile));
-		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
+		try {
+			scanner = new Scanner(new FileReader(pessoaFile));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Erro de I/O");
+			return null;
+		}
+		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃO REGULAR JAVA
 		
 		//System.out.println(scanner.nextLine());
 		scanner.nextLine();
 		while(scanner.hasNext())
 		{
-			int cod = Integer.parseInt(scanner.next());
+			int cod = 0;
+			try{
+			cod = Integer.parseInt(scanner.next());
+			}catch(NumberFormatException ex)
+			{
+				System.out.println("Erro de formatação");
+				return null;
+			}
 			String nome = scanner.next();
 			listPessoa.add(new Pessoa(cod,nome));
 		}
@@ -77,15 +92,22 @@ public class FileIO{
 	 * @param listPessoas - Lista de pessoas cadastradas no sistema
 	 * @param mapGenero - Lista de generos cadastrados no sistema
 	 * @return	Lista de mÃ­dias cadastradas no sistema
-	 * @throws FileNotFoundException 
 	 */
-	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero) throws FileNotFoundException
+	public static List<Midia> readMidia(String midiaFile,List<Pessoa> listPessoas, Map<String,Genero> mapGenero)
 	{
 		List<Midia> listMidia = new ArrayList<>();
 		Midia novo;
 		Genero gnr;
 		
-		scanner = new Scanner(new FileReader(midiaFile));
+		try {
+			scanner = new Scanner(new FileReader(midiaFile));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Erro de I/O");
+			return null;
+			
+		}
 		scanner = scanner.useDelimiter("[;\\n]");
 		
 		// LOOP para descartar a linha de descriÃ§Ã£o do arquivo
@@ -95,24 +117,43 @@ public class FileIO{
 		scanner.nextLine();
 		while(scanner.hasNext())
 		{
+			try{
 			Pessoa diretor = new Pessoa();
 			int codigo = scanner.nextInt();
 			String nome = scanner.next();
 			char type = scanner.next().charAt(0);
 			String dir = scanner.next();
+			//int id = 0;
 			if(!dir.equals(""))
-				diretor = listPessoas.get(Integer.parseInt(dir)-1);
+			{
+				int id = Integer.parseInt(dir)-1;
+				try{
+					
+					diretor = listPessoas.get(id);
+				}catch(IndexOutOfBoundsException ex)
+				{
+					System.out.println("Dados inconsistentes (Diretor:"+id);
+					return null;
+				}
+			}
 			String listaAutores = scanner.next();
 			List<Pessoa> elenco = listAtores(listaAutores,listPessoas);
 			int tamanho = scanner.nextInt();
-			gnr = mapGenero.get(scanner.next());
+			String gen = scanner.next();
+			try{
+			gnr = mapGenero.get(gen);
+			}catch(NullPointerException | ClassCastException ex)
+			{
+				System.out.println("Dados inconsistentes (Genero:"+gen);
+				return null;
+			}
 			String serie = scanner.next();
 			String temporada = scanner.next();
 			boolean possui = (scanner.next()).equals("x");
 			boolean consumiu = scanner.next().equals("x");
 			boolean deseja = scanner.next().equals("x");
 			double preco = Double.parseDouble((scanner.next()).replace(",", "."));
-
+			
 			switch(type)
 			{
 				case 'L': novo = new Livro(codigo,nome,tamanho,gnr,possui,consumiu,deseja,preco,elenco);	
@@ -133,6 +174,11 @@ public class FileIO{
 					relationPessoaMidia(novo, elenco);
 					break;
 				default: System.out.println("Este tipo de midia não pode ser cadastrado!");
+			}
+			}catch(NumberFormatException | InputMismatchException ex )
+			{
+				System.out.println("Erro de formatação");
+				return null;
 			}
 			
 		}
@@ -159,7 +205,7 @@ public class FileIO{
 	 * @return	- Lista de atores que participaram de um filme ou serie
 	 * @throws FileNotFoundException
 	 */
-	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l) throws FileNotFoundException
+	private static List<Pessoa> listAtores(String codAtores, List<Pessoa> l)
 	{
 		List<Pessoa> lista = new ArrayList<>();
 		@SuppressWarnings("resource")
@@ -167,7 +213,18 @@ public class FileIO{
 		
 		while(s.hasNextInt())
 		{
-			lista.add(l.get(s.nextInt()-1));
+			int idPessoa = s.nextInt()-1;
+			try{
+			lista.add(l.get(idPessoa));
+			}catch(InputMismatchException e)
+			{
+				System.out.println("Erro de formatação");
+				return null;
+			}catch(IndexOutOfBoundsException ex)
+			{
+				System.out.println("Dados inconsistentes (A(u)tor:"+idPessoa);
+				return null;
+			}
 		}
 		
 		return lista;
@@ -181,21 +238,48 @@ public class FileIO{
 	 * @throws FileNotFoundException
 	 * @throws ParseException
 	 */
-	public static List<Emprestimo> readEmprestimos(String emprestimoFile,List<Midia> midiaList) throws FileNotFoundException, ParseException
+	public static List<Emprestimo> readEmprestimos(String emprestimoFile,List<Midia> midiaList)
 	{
 		List<Emprestimo> listEmprestimo = new ArrayList<>(); 
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); 
-		scanner = new Scanner(new FileReader(emprestimoFile));
+		try {
+			scanner = new Scanner(new FileReader(emprestimoFile));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Erro de I/O");
+			return null;
+		}
 		scanner = scanner.useDelimiter("[;\\n]+"); // EXPRESSÃƒO REGULAR JAVA
 		
-		System.out.println(scanner.nextLine());
+		//System.out.println(scanner.nextLine());
+		scanner.nextLine();
+		
 		while(scanner.hasNext())
 		{
-			Midia emprestada = midiaList.get(scanner.nextInt()-1);
+			Midia emprestada = null;
+			try{
+			emprestada = midiaList.get(scanner.nextInt()-1);
+			}catch(InputMismatchException ex)
+			{
+				System.out.println("Erro de formatação");
+				return null;
+			}
 			String nome = scanner.next();
 			
-			Date emprestimo = (Date)format.parse(scanner.next());
-			Date devolucao = (Date)format.parse(scanner.next());
+			Date emprestimo = null;
+			Date devolucao = null;
+			try {
+				emprestimo = (Date)format.parse(scanner.next());
+				devolucao = (Date)format.parse(scanner.next());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				System.out.println("Erro de formatação");
+				//System.exit(0);
+				return null;
+			}
+			
 			listEmprestimo.add(new Emprestimo(emprestada,nome,emprestimo,devolucao));
 			
 		}
@@ -217,7 +301,9 @@ public class FileIO{
 			hoje = new SimpleDateFormat("dd/MM/yyyy").parse("06/11/2015");
 		}
 		catch(ParseException ex){
-			ex.printStackTrace();
+			//ex.printStackTrace();
+			System.out.println("Erro de formatação");
+			return;
 		}
 		
 		BufferedWriter bw = null;
@@ -251,7 +337,8 @@ public class FileIO{
 		}
 		catch ( IOException ex)
 		{
-			ex.printStackTrace();
+			//ex.printStackTrace();
+			System.out.println("Erro de I/O");
 		}
 		finally
 		{
@@ -262,7 +349,7 @@ public class FileIO{
 		    }
 		    catch ( IOException ex)
 		    {
-		    	ex.printStackTrace();
+		    	System.out.println("Erro de I/O");
 		    }
 		}
 		
@@ -306,11 +393,12 @@ public class FileIO{
 			
 			
 			
-		}
+			}
 		file.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Erro de I/O");
 		}
 				
 	}
@@ -379,7 +467,8 @@ public class FileIO{
 			file.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Erro de I/O");
 		}
 				
 	
@@ -435,12 +524,12 @@ public class FileIO{
 	    		}
 		    	
 		    }
-		    bw.close();
-
+		    
 		}
 		catch ( IOException ex)
 		{
-			ex.printStackTrace();
+			System.out.println("Erro de I/O");
+			return;
 		}
 		finally
 		{
@@ -451,7 +540,7 @@ public class FileIO{
 		    }
 		    catch ( IOException ex)
 		    {
-		    	ex.printStackTrace();
+		    	System.out.println("Erro de I/O");
 		    }
 		}
 		
