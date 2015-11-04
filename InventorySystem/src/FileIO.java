@@ -319,7 +319,7 @@ public class FileIO{
 		    	bw.write(s+";"+emp.getTomador()+";");
 		    	if(emp.getDevolucao().after(hoje)){
 		    		
-		    		bw.write("Não;\n");
+		    		bw.write("Não;0\n");
 		    		
 		    	}
 		    	else{
@@ -367,6 +367,9 @@ public class FileIO{
 	{
 		Collections.sort(m);
 		
+		Locale locale = new Locale("pt", "BR");
+		NumberFormat numerFormatLocate = NumberFormat.getCurrencyInstance(locale);
+		
 		FileWriter file;
 		try {
 			file = new FileWriter("4-wishlist.csv");
@@ -381,11 +384,11 @@ public class FileIO{
 				{
 					switch(midia.getType())
 					{
-						case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+						case 'L':	saveFile.println("Livro;"+midia.getNome()+";"+midia.getGenero().getNome()+";"+numerFormatLocate.format(midia.getPreco()));
 							break;
-						case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+						case 'F':	saveFile.println("Filme;"+midia.getNome()+";"+midia.getGenero().getNome()+";"+numerFormatLocate.format(midia.getPreco()));
 							break;
-						case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.getGenero().getNome()+";R$ "+midia.getPreco());
+						case 'S': saveFile.println("Série;"+midia.getNome()+";"+midia.getGenero().getNome()+";"+numerFormatLocate.format(midia.getPreco()));
 							break;
 						default:
 					}
