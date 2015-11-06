@@ -132,7 +132,7 @@ public class FileIO{
 					diretor = listPessoas.get(id);
 				}catch(IndexOutOfBoundsException ex)
 				{
-					System.out.println("Dados inconsistentes (Diretor:"+id);
+					System.out.println("Dados inconsistentes (Diretor:"+(id+1)+")");
 					return null;
 				}
 			}
@@ -227,7 +227,7 @@ public class FileIO{
 				return null;
 			}catch(IndexOutOfBoundsException ex)
 			{
-				System.out.println("Dados inconsistentes (A(u)tor:"+idPessoa);
+				System.out.println("Dados inconsistentes (A(u)tor:"+(idPessoa+1)+")");
 				return null;
 			}
 		}
@@ -263,11 +263,16 @@ public class FileIO{
 		while(scanner.hasNext())
 		{
 			Midia emprestada = null;
+			int pos = scanner.nextInt()-1;
 			try{
-			emprestada = midiaList.get(scanner.nextInt()-1);
+			emprestada = midiaList.get(pos);
 			}catch(InputMismatchException ex)
 			{
 				System.out.println("Erro de formatação");
+				return null;
+			}catch(IndexOutOfBoundsException ex1)
+			{
+				System.out.println("Dados inconsistentes (Midia:"+(pos+1)+")");
 				return null;
 			}
 			String nome = scanner.next();
@@ -299,9 +304,11 @@ public class FileIO{
 	 * @param e lista de emprestimos
 	 */
 	public static void writeEmprestimos(List<Emprestimo> e){
-		
+		try{
 		Date hoje = null;
+		
 		Collections.sort(e);
+		
 		try{
 			hoje = new SimpleDateFormat("dd/MM/yyyy").parse("06/11/2015");
 		}
@@ -356,6 +363,11 @@ public class FileIO{
 		    {
 		    	System.out.println("Erro de I/O");
 		    }
+		}
+		}catch(NullPointerException ex )
+		{
+			//System.out.println("Erro de I/O");
+			return;
 		}
 		
 	}
